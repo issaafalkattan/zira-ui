@@ -1,26 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { onError } from "@apollo/client/link/error";
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  HttpLink,
+  from,
+} from "@apollo/client";
+import { errorHandler } from "./utils";
+import HomePage from "./components/HomePage/HomePage";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import "antd/dist/antd.css";
 
-function App() {
+const errorLink = onError(errorHandler);
+
+const link = from([errorLink, new HttpLink({ uri: "http://localhost:4000" })]);
+
+const apolloClient = new ApolloClient({
+  cache: new InMemoryCache(),
+  link,
+});
+
+const App = (): JSX.Element => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ApolloProvider client={apolloClient}>
+      <DndProvider backend={HTML5Backend}>
+        <HomePage />
+      </DndProvider>
+    </ApolloProvider>
   );
-}
+};
 
 export default App;
