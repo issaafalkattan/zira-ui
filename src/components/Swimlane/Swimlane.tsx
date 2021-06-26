@@ -45,7 +45,7 @@ const Swimlane = ({
         style={{
           backgroundColor,
           padding: "24px 24px",
-          minHeight: "90vh",
+          height: "auto",
           color: "white",
           border: "1px solid white",
         }}
