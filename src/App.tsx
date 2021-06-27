@@ -3,7 +3,7 @@ import { onError } from "@apollo/client/link/error";
 import {
   ApolloClient,
   InMemoryCache,
-  ApolloProvider,
+  ApolloProvider, 
   HttpLink,
   from,
 } from "@apollo/client";

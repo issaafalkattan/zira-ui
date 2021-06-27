@@ -11,3 +11,13 @@ export const UPDATE_STATUS = gql`
             }
       }
 `;
+export const CREATE_TICKET = gql`
+      mutation createTicket($title: String! $description: String){
+            createTicket(ticket:{title:$title description:$description}) {
+                  id
+                  title
+                  description
+                  status
+            }
+      }
+`;

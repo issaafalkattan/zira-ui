@@ -6,7 +6,9 @@ import { SWIMLANES } from "../../constants/index";
 import Swimlane from "../Swimlane";
 import { Ticket, TicketStatus } from "../../types/index";
 import AppHeader from "../AppHeader";
-import { UPDATE_STATUS } from "../../graphql/mutation";
+import { UPDATE_STATUS } from "../../graphql/mutations";
+import useBooleanToggle from "../../hooks/useBooleanToggle";
+import TicketForm from "../TicketForm";
 
 const { Content } = Layout;
 const HomePage = (): JSX.Element => {
@@ -15,6 +17,8 @@ const HomePage = (): JSX.Element => {
     error,
     loading,
   } = useQuery<{ tickets: Ticket[] }>(LOAD_TICKETS);
+
+  const [isFormVisible, toggleCreateForm] = useBooleanToggle();
 
   const [updateStatus, { error: statusUpdateError }] =
     useMutation(UPDATE_STATUS);
@@ -36,7 +40,7 @@ const HomePage = (): JSX.Element => {
 
   return (
     <Layout>
-      <AppHeader />
+      <AppHeader toggleForm={() => toggleCreateForm(true)} />
       <Content>
         <Spin spinning={loading}>
           <Row>
@@ -55,6 +59,7 @@ const HomePage = (): JSX.Element => {
           </Row>
         </Spin>
       </Content>
+      <TicketForm isVisible={isFormVisible} onClose={() => toggleCreateForm(false)} />
     </Layout>
   );
 };
